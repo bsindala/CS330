@@ -1,0 +1,29 @@
+# simple shell script to compile and link a nasm program on Linux.
+#
+# this first compiles the irvine.asm file that has the procedures defined in
+# Kip Irvine's book, then it compiles the nasm program source being tested, 
+# and then links to create an executable.  
+#
+# Note:  this re-compiles the along32.asm file every time a program is compiled
+# and run.  You can comment the first line below out (starting with nasm) if you
+# want to avoid this.  However, it takes almost no time to compile this, so it
+# won't speed anything up to speak of.
+#
+# Note2:  this obviously requires the nasm package for linux, which most
+# distributions include.  However, it also needs the 32 bit libraries which 
+# are commonly not pre-installed.  You will need to google search for 32 bit
+# compatibility libraries for your linux distribution and follow the
+# instructions to install them.  Once you have those installed, this should
+# compile and create an executable.
+#
+# if you use the command "asm32 test" you must have a test.asm source file, and
+# this will create an executable named "test" and a listing file "test.lst" if
+# you want to see the addresses and hex instructions.
+#
+#
+nasm -felf32 along32.asm
+#nasm -fmacho ALong32.asm
+nasm -felf32 -l$1.lst $1.asm
+#nasm -fmacho -l$1.lst $1.asm
+gcc -m32 $1.o along32.o -o $1
+#ld $1.o ALong32.o -o $1 -lc -macosx_version_min 10.6
